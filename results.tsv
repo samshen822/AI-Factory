@@ -1,2 +1,8 @@
 iter	action	metric	guard	decision	notes
-0	baseline	10	pass	keep	1 test (add)
+0	baseline	10	pass	keep	1 test (add only)
+1	add subtract tests	15	pass	keep	+5 lines (2 tests)
+2	add multiply tests	20	pass	keep	+5 lines (2 tests)
+3	add divide tests	30	pass	keep	+10 lines (happy + throw branch)
+4	add power tests	55	pass	keep	+25 lines (3 branches: base, neg exp, loop)
+5	add factorial tests	70	pass	keep	+15 lines (recursion + throw)
+6	add isPrime tests	100	pass	keep	+30 lines (5 branches covered)
