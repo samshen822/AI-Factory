@@ -1,0 +1,49 @@
+{
+  "id": "anime-character",
+  "name": "Anime Character Creator",
+  "description": "Structured anime-character creation: typed tool + bundled skill + swappable portrait provider.",
+  "version": "1.0.0",
+  "skills": ["./skills/anime-character-creator"],
+  "commandAliases": [
+    { "name": "new-character",  "kind": "command", "cliCommand": "anime-character.new" },
+    { "name": "list-characters", "kind": "command", "cliCommand": "anime-character.list" }
+  ],
+  "uiHints": {
+    "defaultGenre":              { "label": "Default genre",              "sensitivity": "low" },
+    "nsfwPolicy":                { "label": "NSFW policy",                "sensitivity": "low" },
+    "portraitProvider":          { "label": "Portrait image provider",    "sensitivity": "low" },
+    "portraitProviderEndpoint":  { "label": "Portrait provider endpoint", "sensitivity": "low", "placeholder": "http://127.0.0.1:7860" },
+    "charactersDir":             { "label": "Characters directory",       "sensitivity": "low", "placeholder": "./characters" }
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "defaultGenre": {
+        "type": "string",
+        "enum": ["shounen", "shoujo", "seinen", "josei", "isekai", "cyberpunk", "dark-fantasy", "slice-of-life"],
+        "default": "seinen"
+      },
+      "nsfwPolicy": {
+        "type": "string",
+        "enum": ["strict", "moderate", "artistic"],
+        "default": "strict",
+        "description": "strict: no suggestive content at any age. moderate: tasteful for 18+. artistic: same as moderate plus tasteful nudity for 18+."
+      },
+      "portraitProvider": {
+        "type": "string",
+        "enum": ["none", "builtin", "sd-webui", "novelai"],
+        "default": "builtin"
+      },
+      "portraitProviderEndpoint": {
+        "type": "string",
+        "description": "Used when portraitProvider is sd-webui or novelai."
+      },
+      "charactersDir": {
+        "type": "string",
+        "default": "./characters",
+        "description": "Directory (workspace-relative) where character cards and portraits are written."
+      }
+    }
+  }
+}

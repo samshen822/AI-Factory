@@ -1,0 +1,26 @@
+{
+  "name": "@example/openclaw-anime-character",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Structured anime character creator plugin for OpenClaw: typed tool + bundled skill + swappable portrait provider.",
+  "openclaw": {
+    "extensions": ["./index.ts"],
+    "compat": { "pluginApi": ">=2026.3.24-beta.2" }
+  },
+  "peerDependencies": {
+    "openclaw": "*"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "^0.33.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  },
+  "files": [
+    "index.ts",
+    "openclaw.plugin.json",
+    "src/**/*.ts",
+    "skills/**/*"
+  ],
+  "keywords": ["openclaw", "openclaw-plugin", "anime", "character-design", "creative"]
+}
