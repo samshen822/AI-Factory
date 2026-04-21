@@ -1,5 +1,7 @@
 # AI-Factory
 
+> Language: **English** · [简体中文](README.zh.md)
+
 Templates and reference implementations for shipping AI agent capabilities
 to [OpenClaw](https://openclaw.ai).
 
@@ -7,7 +9,8 @@ OpenClaw does not expose a standalone "agent" publish channel. To ship a
 new capability you pick one of two paths — a **skill** (composes existing
 tools) or a **plugin** (registers new tools / providers / channels). This
 repo demonstrates both by implementing the same anime-character-creator
-agent twice, side by side.
+agent twice, side by side, and ships a second agent (Morning Brief) as a
+style contrast.
 
 ---
 
@@ -17,8 +20,9 @@ agent twice, side by side.
 | --- | --- |
 | `openclaw-template/agent-workspace/` | Bootstrap files for an OpenClaw workspace — `AGENTS.md`, `SOUL.md`, `IDENTITY.md`, `USER.md`, `TOOLS.md`, `BOOTSTRAP.md`. Drop into `~/.openclaw/workspace/` to give your agent a persona. |
 | `openclaw-template/clawhub-skill/` | Minimum publishable skill (`SKILL.md` + `CHANGELOG.md`). A blank scaffold to fork. |
-| `openclaw-template/clawhub-skill-anime-character/` | A concrete **anime character creator** skill with structured output, iteration semantics, and content guards. Publishable via `clawhub skill publish`. |
-| `openclaw-template/plugin-anime-character/` | The same capability as a full **OpenClaw plugin**: TypeBox-schemad tools, slash commands, swappable image provider, bundled skill. Publishable via `clawhub package publish`. |
+| `openclaw-template/clawhub-skill-anime-character/` | A concrete **anime character creator** skill (Path A) — structured output, iteration semantics, content guards. Publishable via `clawhub skill publish`. |
+| `openclaw-template/clawhub-skill-morning-brief/` | A **Morning Brief** skill demo (Path A) — scans HN / arXiv / RSS / GitHub Trending daily, filters by user interests, writes a 3-bullet brief and optionally delivers to a channel. |
+| `openclaw-template/plugin-anime-character/` | The same anime-character capability as a full **OpenClaw plugin** (Path B) — TypeBox-schemad tools, slash commands, swappable image provider, bundled skill. Publishable via `clawhub package publish`. |
 | `src/`, `tests/`, `results.tsv` | A tiny Jest sandbox used to iterate a coverage-driven loop. Kept so the repo doubles as a reproducible demo. |
 
 ---
@@ -41,7 +45,7 @@ clawhub skill publish ./my-skill \
   --slug my-skill --name "My Skill" --version 1.0.0 --tags "latest"
 ```
 
-Full example: [`openclaw-template/clawhub-skill-anime-character/`](openclaw-template/clawhub-skill-anime-character).
+Full examples: [`clawhub-skill-anime-character/`](openclaw-template/clawhub-skill-anime-character) (creative) and [`clawhub-skill-morning-brief/`](openclaw-template/clawhub-skill-morning-brief) (utility).
 
 ### Path B — Plugin (full SDK)
 
@@ -67,10 +71,12 @@ NovelAI).
 
 ---
 
-## The anime-character capability
+## Agent demos
 
-Both templates implement the same agent, so the skill ↔ plugin comparison
-is literal.
+### Anime character creator
+
+The anime-character capability is implemented **twice** — once as a skill
+(Path A) and once as a plugin (Path B) — so the comparison is literal.
 
 - **Input** — a rough concept (e.g. `会记忆魔法的档案管理员`), optional `genre` / `age` / `pronoun` / `notes`, or a reference image URL.
 - **Output** — a structured Markdown card at `./characters/<slug>.md` with sections *Core / Visual / Personality / Backstory / Story / Visual prompt / Author notes*. Optional portrait PNG under `./characters/portraits/<slug>.png`.
@@ -86,7 +92,25 @@ is literal.
 
 Filled sample card: [`openclaw-template/clawhub-skill-anime-character/examples/asanagi-chikage.md`](openclaw-template/clawhub-skill-anime-character/examples/asanagi-chikage.md).
 
-### Skill vs. Plugin — when to pick which
+### Morning Brief
+
+A second Path A demo so you can see the skill pattern applied to an
+information-utility task, not just a creative one.
+
+- **Input** — user interests (keyword allowlist + exclusions + domain tags), read from `./brief-config.yml` or `USER.md`. Optional scheduled trigger (e.g. 08:00 daily).
+- **Output** — a Markdown brief at `./briefs/<YYYY-MM-DD>.md` with 3–5 top items, each linked to a real source URL. Optional delivery to Telegram / Slack / Discord.
+- **Iteration** — `redo today`, `deepen item 2`, `only AI news`, `switch delivery to Slack`.
+- **Guards** —
+  - no fabricated sources — items without a valid click-through URL are dropped, not invented;
+  - no scanning outside the configured source list;
+  - body ≤ 250 chars, each bullet ≤ 80 chars;
+  - source failures (timeout / parse error / paywall) reported transparently at the end of the brief, not hidden.
+
+Filled sample brief: [`openclaw-template/clawhub-skill-morning-brief/examples/2026-04-21.md`](openclaw-template/clawhub-skill-morning-brief/examples/2026-04-21.md).
+
+---
+
+## Skill vs. Plugin — when to pick which
 
 | Dimension | Skill (Path A) | Plugin (Path B) |
 | --- | --- | --- |
@@ -136,11 +160,16 @@ record.
 ├── openclaw-template/
 │   ├── agent-workspace/                         # IDENTITY / SOUL / USER / AGENTS / TOOLS / BOOTSTRAP
 │   ├── clawhub-skill/                           # generic SKILL.md scaffold
-│   ├── clawhub-skill-anime-character/           # Path A reference agent
+│   ├── clawhub-skill-anime-character/           # Path A reference agent (creative)
 │   │   ├── SKILL.md
 │   │   ├── CHANGELOG.md
 │   │   ├── templates/CHARACTER.md
 │   │   └── examples/asanagi-chikage.md
+│   ├── clawhub-skill-morning-brief/             # Path A reference agent (utility)
+│   │   ├── SKILL.md
+│   │   ├── CHANGELOG.md
+│   │   ├── templates/BRIEF.md
+│   │   └── examples/2026-04-21.md
 │   └── plugin-anime-character/                  # Path B reference agent
 │       ├── package.json
 │       ├── openclaw.plugin.json
