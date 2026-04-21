@@ -1,4 +1,4 @@
-const { add, subtract, multiply, divide, power, factorial } = require('../src/calc');
+const { add, subtract, multiply, divide, power, factorial, isPrime } = require('../src/calc');
 
 test('add 1 + 2 = 3', () => {
   expect(add(1, 2)).toBe(3);
@@ -50,4 +50,24 @@ test('factorial 5 = 120', () => {
 
 test('factorial negative throws', () => {
   expect(() => factorial(-1)).toThrow('Negative factorial');
+});
+
+test('isPrime: 1 is not prime', () => {
+  expect(isPrime(1)).toBe(false);
+});
+
+test('isPrime: 2 is prime', () => {
+  expect(isPrime(2)).toBe(true);
+});
+
+test('isPrime: even composite', () => {
+  expect(isPrime(8)).toBe(false);
+});
+
+test('isPrime: odd composite', () => {
+  expect(isPrime(9)).toBe(false);
+});
+
+test('isPrime: large prime', () => {
+  expect(isPrime(97)).toBe(true);
 });
