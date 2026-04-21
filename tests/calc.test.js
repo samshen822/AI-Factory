@@ -1,4 +1,4 @@
-const { add, subtract, multiply, divide, power } = require('../src/calc');
+const { add, subtract, multiply, divide, power, factorial } = require('../src/calc');
 
 test('add 1 + 2 = 3', () => {
   expect(add(1, 2)).toBe(3);
@@ -38,4 +38,16 @@ test('power negative exponent', () => {
 
 test('power positive exponent', () => {
   expect(power(3, 4)).toBe(81);
+});
+
+test('factorial 0 = 1', () => {
+  expect(factorial(0)).toBe(1);
+});
+
+test('factorial 5 = 120', () => {
+  expect(factorial(5)).toBe(120);
+});
+
+test('factorial negative throws', () => {
+  expect(() => factorial(-1)).toThrow('Negative factorial');
 });
