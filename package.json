@@ -1,0 +1,16 @@
+{
+  "name": "autoresearch-demo",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "test": "jest",
+    "coverage": "jest --coverage --coverageReporters=text-summary"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "collectCoverageFrom": ["src/**/*.js"],
+    "coverageThreshold": {}
+  }
+}
