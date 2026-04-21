@@ -1,4 +1,4 @@
-const { add, subtract, multiply } = require('../src/calc');
+const { add, subtract, multiply, divide } = require('../src/calc');
 
 test('add 1 + 2 = 3', () => {
   expect(add(1, 2)).toBe(3);
@@ -18,4 +18,12 @@ test('multiply 4 * 3 = 12', () => {
 
 test('multiply by zero', () => {
   expect(multiply(99, 0)).toBe(0);
+});
+
+test('divide 10 / 2 = 5', () => {
+  expect(divide(10, 2)).toBe(5);
+});
+
+test('divide by zero throws', () => {
+  expect(() => divide(1, 0)).toThrow('Division by zero');
 });
